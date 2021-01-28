@@ -1,0 +1,14 @@
+numNodes maxTimeSteps type
+
+EdgeList:
+from to length maxSpeed ttd
+
+Prohibited transitions
+left mid right
+
+Trainlist:
+[speed length depTime (from to)
+Stoplist: [
+arrivalTime from to
+]
+]
