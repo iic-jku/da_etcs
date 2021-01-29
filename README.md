@@ -9,28 +9,30 @@ In a first attempt (described in [[1]](https://iic.jku.at/files/eda/2021_date_au
 
 [[1]](https://iic.jku.at/files/eda/2021_date_automatic_design_verification_level3_etcs.pdf) Robert Wille and Tom Peham and Judith Przigoda and Nils Przigoda. **"Towards Automatic Design and Verification for Level 3 of the European Train Control System"**. Design, Automation and Test in Europe (DATE), 2021 ([pdf]( https://iic.jku.at/files/eda/2021_date_automatic_design_verification_level3_etcs.pdf))
 
-If you have any questions, feel free to contact us via iic-etcs@jku.at [Link!] or by creating an issue on GitHub.
+If you have any questions, feel free to contact us via iic-etcs@jku.at or by creating an issue on GitHub.
 
 ## Usage
 
 ### System Requirements 
 
 The package has been tested under Linux (Ubuntu 18.04, 64-bit) and should be compatible with any current version of g++ supporting C++17 and a minimum CMake version of 3.13.
-Note that in order for the bindings to work the SMT Solver Z3 has to be installed on the system and the dynamic linker has to be able to find the library. This can be accomplished in one of the following ways:
+The project also requires the Z3 theorem prover. It can be installed in any of the following ways:
 - Under Ubuntu 18.04 and newer: `sudo apt install z3`
-- Alternatively: `pip install z3-solver` and then append the corresponding path to the library path (`LD_LIBRARY_PATH` under Linux, `DYLD_LIBRARY_PATH` under macOS), e.g. via
-    ```bash
-    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(python -c "import z3; print(z3.__path__[0]+'/lib')")
-    ```
 - Download pre-built binaries from https://github.com/Z3Prover/z3/releases and copy the files to the respective system directories
 - Build Z3 from source and install it to the system
 
 ### Build and Run 
 
-To build the tool go to the project folder and type 
+To build the tool go to the project folder and execute the following:
 
-     cmake CMakeLists.txt
-    
+1) Configure CMake
+    ```commandline
+    cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+
+2) Build the respective target.
+    ```commandline
+   cmake --build ./build --config Release --target <target>
+   ```
 
 To use the tool run 
 
