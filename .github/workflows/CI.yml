@@ -39,7 +39,7 @@ jobs:
 
     - name: Build
       shell: bash
-      run: cmake --build ${{github.workspace}}/build --config $BUILD_TYPE
+      run: cmake --build "${{github.workspace}}/build" --config $BUILD_TYPE
 
   macOS-ci:
     runs-on: macos-latest
@@ -68,7 +68,7 @@ jobs:
 
     - name: Build
       shell: bash
-      run: cmake --build ${{github.workspace}}/build --config $BUILD_TYPE
+      run: cmake --build "${{github.workspace}}/build" --config $BUILD_TYPE
       
   windows-ci:
     runs-on: windows-latest
@@ -97,4 +97,4 @@ jobs:
 
     - name: Build
       shell: bash
-      run: cmake --build ${{github.workspace}}/build --config $BUILD_TYPE
+      run: cmake --build "${{github.workspace}}/build" --config $BUILD_TYPE
