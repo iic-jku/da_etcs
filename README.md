@@ -31,7 +31,7 @@ To build the tool go to the project folder and execute the following:
 
 2) Build the respective target.
     ```commandline
-   cmake --build ./build --config Release --target <target>
+   cmake --build ./build --config Release
    ```
 
 To use the tool run 
