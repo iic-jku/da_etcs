@@ -1,11 +1,15 @@
-# A Tool for creating VSS Layouts for Rail Networks and for verifying and optimizing Train Schedules written in C++
+# A Tool for the Generation, Verification and Optimization of ETCS Train Layouts/Schedules
 
 Developers: Tom Peham and Robert Wille
 ## Overview
 
-The European Train Control System (ETCS) strives to harmonize and improve train control systems throughout Europe. One particular aspect is the utilization of virtual subsections which allow for a much higher degree of freedom and provide significant potential for increasing the efficiency in today’s train schedules. However, exploiting this potential is a highly non-trivial task which, thus far, mainly relied on manual labor. In our work, we aim for introducing methods for design automation which aid designers of corresponding railway networks and train schedules.
+The European Train Control System (ETCS) strives to harmonize and improve train control systems throughout Europe. One particular aspect is the utilization of virtual subsections which allow for a much higher degree of freedom and provide significant potential for increasing the efficiency in today’s train schedules. However, exploiting this potential is a highly non-trivial task which, thus far, mainly relied on manual labor. In our work at the [Institute for Integrated Circuits](http://iic.jku.at/eda/) of the [Johannes Kepler University Linz](https://jku.at), we aim for introducing methods for design automation which aid designers of corresponding railway networks and train schedules.
 
-In a first attempt, we developed an inital solution which utilizes satisfiability solvers to generate, verify, and optimize train layout and/or schedules. 
+In a first attempt (described in [[1]](https://iic.jku.at/files/eda/2021_date_automatic_design_verification_level3_etcs.pdf)), we developed an initial solution which utilizes satisfiability solvers to generate, verify, and optimize train layout and/or schedules. 
+
+[[1]](https://iic.jku.at/files/eda/2021_date_automatic_design_verification_level3_etcs.pdf) Robert Wille and Tom Peham and Judith Przigoda and Nils Przigoda. **"Towards Automatic Design and Verification for Level 3 of the European Train Control System"**. Design, Automation and Test in Europe (DATE), 2021 ([pdf]( https://iic.jku.at/files/eda/2021_date_automatic_design_verification_level3_etcs.pdf))
+
+If you have any questions, feel free to contact us via iic-etcs@jku.at [Link!] or by creating an issue on GitHub.
 
 ## Usage
 
@@ -32,7 +36,7 @@ To use the tool run
 
     ./da_etcs [option] <input file>
 
-option can be:
+Options can be:
     
     -f ... verify given schedule, no layout generation
     -s ... verify schedule, layout generation
@@ -42,7 +46,7 @@ If no options are given then all design tasks will be performed in that order.
 
 #### Input File Format
  
-The input file describes the track layout as an undirected graph and the train schedule. The BNF of the file format is given below. The tests folder contains some examples.
+The input file describes the track layout as an undirected graph and the train schedule. The BNF of the file format is given below. The tests folder includes some examples.
 ```
 #> input_file ::== [integer] [integer] nl nl (track nl)* nl [fork nl]* nl (train)*     (*number of nodes, max timesteps, ...*)
 #> track ::== edge integer integer integer integer                                     (*edge, length, speed limit, ttd*)
