@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <functional>
 #include <vector>
+#include <string>
 
 class Edge {
 public:
