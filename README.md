@@ -48,7 +48,7 @@ If no options are given then all design tasks will be performed in that order.
 
 #### Input File Format
  
-The input file describes the track layout as an undirected graph and the train schedule. The BNF of the file format is given below. The tests folder includes some examples.
+The input file describes the track layout as an undirected graph and the train schedule. The BNF of the file format is given below. The examples folder contains some examples as well as an annotated version of a simple input file.
 ```
 #> input_file ::== [integer] [integer] nl nl (track nl)* nl [fork nl]* nl (train)*     (*number of nodes, max timesteps, ...*)
 #> track ::== edge integer integer integer integer                                     (*edge, length, speed limit, ttd*)

@@ -11,7 +11,7 @@ add_executable(da_etcs
                include/edge.h
                src/train.cpp
                include/train.h
-               src/main.cpp)
+               apps/main.cpp)
 list (APPEND CMAKE_MODULE_PATH
       "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 find_package(Z3 REQUIRED)
