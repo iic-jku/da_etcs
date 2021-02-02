@@ -288,7 +288,7 @@ void Instance::printTrainRoute() {
   for (Train train : trains) {
     bool reachedGoal = false;
     for (size_t time = train.start.arrivalTime; time < maxTimeSteps; time++) {
-      std::cout << "TIME " << time << ": [";
+      std::cout << time << ": "; 
       if(reachedGoal) continue;
       for (Edge *edge : graph.edges) {
         reachedGoal = edge == train.stops[-1].stopEdge;
@@ -297,7 +297,7 @@ void Instance::printTrainRoute() {
           std::cout << "(" << edge->to << " " << edge->from << ") ";
         }
       }
-      std::cout << "]" << std::endl;
+      std::cout << std::endl;
     }
     std::cout << std::endl;
   }

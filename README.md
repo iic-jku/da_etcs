@@ -64,7 +64,7 @@ The input file describes the track layout as an undirected graph and the train s
 ```
 #> output_file ::== ("SAT" nl (vss nl)* nl (route nl)* ) | "UNSAT""
 #> vss ::== node* (*nodes belonging to same vss*)
-#> route ::== 0 edge* nl | ... | maxTime-1 edge* nl                                      (*routes are in order of appearence in input file*)
+#> route ::== 0 ": " edge* nl | ... | maxTime-1 ": " edge* nl                                      (*train routes are ordered the same as trains in input file*)
 ```
 ## Reference
 
