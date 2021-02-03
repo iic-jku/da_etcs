@@ -287,13 +287,16 @@ void Instance::printTrainRoute() {
   model m = solver.get_model();
   for (Train train : trains) {
     bool reachedGoal = false;
-    for (size_t time = train.start.arrivalTime; time < maxTimeSteps; time++) {
+    for (size_t time = 0; time < maxTimeSteps; time++) {
       std::cout << time << ": "; 
-      if(reachedGoal) continue;
+      if(time < train.start.arrivalTime || reachedGoal){
+        std::cout << std::endl;
+        continue;
+      }
       for (Edge *edge : graph.edges) {
-        reachedGoal = edge == train.stops[-1].stopEdge;
         if (m.eval(occupiedVars[train.id][time][edge->id], false)
                 .bool_value() == Z3_TRUE) {
+          reachedGoal = edge == train.stops.back().stopEdge;
           std::cout << "(" << edge->to << " " << edge->from << ") ";
         }
       }
