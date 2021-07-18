@@ -20,9 +20,15 @@ class Instance {
   Instance(const Instance& otherInstance);
 
   void printVSS();
+  uint32_t num_vss();
   vssListType getVSS(int ttd);
   bool solve();
   void printTrainRoute();
+  uint32_t makespan();
+  uint32_t sum_times();
+
+  double constraint_t = 0;
+  double solve_t = 0;
   
  protected:
 

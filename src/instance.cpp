@@ -1,5 +1,7 @@
 #include "../include/instance.h"
-#include <chrono>
+#include <ctime>
+#include <z3++.h>
+#include <z3_api.h>
 
 Instance::Instance(Graph g, std::vector<Train> trains, uint32_t maxTimeSteps,
                    context *c)
@@ -29,7 +31,10 @@ Instance::Instance(Graph g, std::vector<Train> trains, uint32_t maxTimeSteps,
       }
     }
   }
+  std::clock_t c_start = std::clock();
   computeConstraints();
+  std::clock_t c_end = std::clock();
+  constraint_t += 1000.0 * (c_end - c_start) / CLOCKS_PER_SEC;
 }
 
 Instance::Instance(const Instance &otherInstance)
@@ -50,6 +55,17 @@ void Instance::printVSS() {
       std::cout << std::endl;
     }
   }
+}
+
+uint32_t Instance::num_vss() {
+  model m = solver.get_model();
+  uint32_t n_vss = 0;
+  for (auto iter : graph.ttds) {
+    for (vssType vss : getVSS(iter.first)) {
+      n_vss++;
+    }
+  }
+  return n_vss;
 }
 
 void Instance::computeConstraints() {
@@ -248,8 +264,19 @@ vssListType Instance::getVSS(int ttd) {
 }
 
 bool Instance::solve() {
+  std::clock_t c_start = std::clock();
   enforceConstraints();
-  return solver.check() == sat;
+  std::clock_t c_end = std::clock();
+  constraint_t += 1000.0 * (c_end - c_start) / CLOCKS_PER_SEC;
+
+  z3::params p(*c);
+  p.set(":timeout", static_cast<unsigned>(1000*60)); //1 minute timout
+  solver.set(p);
+  c_start = std::clock();
+  bool result = solver.check() == sat;
+  c_end = std::clock();
+  solve_t += 1000.0 * (c_end - c_start) / CLOCKS_PER_SEC;
+  return result;
 }
 
 void Instance::enforceConstraints() {
@@ -305,6 +332,54 @@ void Instance::printTrainRoute() {
     std::cout << std::endl;
   }
 }
+
+uint32_t Instance::makespan() {
+  model m = solver.get_model();
+  uint32_t make_span = 0;
+  for (Train train : trains) {
+    uint32_t travel_time = 0;
+    bool reachedGoal = false;
+    for (size_t time = 0; time < maxTimeSteps; time++) {
+      if(time < train.start.arrivalTime || reachedGoal){
+        continue;
+      }
+      travel_time++;
+      for (Edge *edge : graph.edges) {
+        if (m.eval(occupiedVars[train.id][time][edge->id], false)
+                .bool_value() == Z3_TRUE) {
+          reachedGoal = edge == train.stops.back().stopEdge;
+        }
+      }
+    }
+    if(travel_time > make_span)
+      make_span = travel_time;
+  }
+  return make_span;
+}
+
+uint32_t Instance::sum_times() {
+  model m = solver.get_model();
+  uint32_t sum = 0;
+  for (Train train : trains) {
+    uint32_t travel_time = 0;
+    bool reachedGoal = false;
+    for (size_t time = 0; time < maxTimeSteps; time++) {
+      if(time < train.start.arrivalTime || reachedGoal){
+        continue;
+      }
+      travel_time++;
+      for (Edge *edge : graph.edges) {
+        if (m.eval(occupiedVars[train.id][time][edge->id], false)
+                .bool_value() == Z3_TRUE) {
+          reachedGoal = edge == train.stops.back().stopEdge;
+        }
+      }
+    }
+    sum += travel_time;
+  }
+  return sum;
+}
+
 
 void FixedVssInstance::enforceBoundaryConstraints() {
   for (size_t vertex = 0; vertex < borderVars.size(); vertex++) {

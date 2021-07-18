@@ -81,6 +81,20 @@ void printInstance(Instance* instance) {
     }
 }
 
+void printStatistics(Instance* instance) {
+  if(instance->solve()) {
+    std::cout << "SAT" << "\n";
+    std::cout << "VSS: " << instance->num_vss() << "\n";
+    std::cout << "MAKESPAN: " << instance->makespan() << "\n";
+    std::cout << "Sum Times: " << instance->sum_times() << "\n";
+
+  } else {
+    std::cout << "UNSAT" << "\n";
+  }
+  std::cout << "CONSTRAINT TIME: " << instance->constraint_t << "\n";
+  std::cout << "SOLVE TIME: " << instance->solve_t << "\n";
+}
+
 int main(int argc, char* argv[]) {
   if(argc < 2) {
     std::cout << "No file provided" << std::endl;
@@ -102,7 +116,8 @@ int main(int argc, char* argv[]) {
       std::cerr << "Unknown option" << std::endl;
       std::exit(-1);
     }
-    printInstance(instance);
+    //printInstance(instance);
+    printStatistics(instance);
   } else {
     
     instance = new FixedVssInstance(*parseInstance(argv[1]));
